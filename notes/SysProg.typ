@@ -200,6 +200,20 @@ This is the script you write. It tells z/OS exactly:
 - How much memory, CPU time, which job class, priority, etc.
 - What should happen if a step fails (COND codes, IF/THEN/ELSE)
 
+_Example JCL code:_
+```
+//PAYJOB   JOB (123456),'MONTHLY PAYROLL',CLASS=A,
+//         MSGCLASS=X,NOTIFY=&SYSUID,TIME=1440
+//STEP1    EXEC PGM=PAYROLL
+//STEPLIB  DD DSN=PROD.LOADLIB,DISP=SHR
+//INPUT    DD DSN=PROD.PAYROLL.INPUT,DISP=SHR
+//REPORT   DD DSN=PROD.PAYROLL.REPORT(+1),
+//             DISP=(NEW,CATLG,DELETE),
+//             SPACE=(CYL,(50,20),RLSE),
+//             DCB=(RECFM=FB,LRECL=133,BLKSIZE=0)
+//SYSOUT   DD SYSOUT=*
+//SYSPRINT DD SYSOUT=*
+```
 
 == JES – Job Entry Subsystem (JES2 or JES3)
 
